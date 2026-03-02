@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  cngsm-os:
+    build: .
+    container_name: cngsm-os-skynet
+    ports:
+      - "3001:3001"
+      - "9222:9222"
+    volumes:
+      - cngsm-data:/app/.cngsm/index
+    restart: always
+
+volumes:
+  cngsm-data:

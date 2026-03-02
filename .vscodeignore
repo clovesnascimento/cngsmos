@@ -1,0 +1,42 @@
+# .vscodeignore - Controls what is EXCLUDED from the .vsix package
+# ─────────────────────────────────────────────────────────────────
+# SECURITY: Ensures no dev artifacts, source maps, secrets,
+# or unnecessary files are shipped in the compiled extension.
+
+# Source files (already bundled into dist/extension.js)
+src/**
+tsconfig.json
+webpack.config.js
+
+# Dev dependencies (not needed at runtime)
+node_modules/**
+.vscode/**
+.cngsm/**
+
+# Dev/build artifacts
+dist/extension.js.map
+
+# Test, scripts, debug files
+scripts/**
+Snapshots/**
+out/**
+docs/**
+
+# CI / Docker / deployment configs
+Dockerfile
+docker-compose.yml
+launch-browser.bat
+launch-browser.sh
+start-skynet.sh
+
+# Lock files and package sources (already bundled)
+package-lock.json
+
+# Git
+.gitignore
+**/.git/**
+
+# Environment / secrets (should never exist, but just in case)
+**/*.env
+**/.env*
+**/secrets.*

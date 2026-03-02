@@ -1,0 +1,133 @@
+{
+  "name": "cngsmos",
+  "displayName": "CNGSM Code Agent",
+  "description": "Autonomous Coding Agent for VS Code (cngsmOS)",
+  "version": "0.0.1",
+  "publisher": "cngsm",
+  "engines": {
+    "vscode": "^1.109.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "*"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "cngsm-code-agent-sidebar",
+          "title": "CNGSM Agent",
+          "icon": "media/icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "cngsm-code-agent-sidebar": [
+        {
+          "type": "webview",
+          "id": "cngsm-code-agent.chatView",
+          "name": "CNGSM Agent Chat"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "cngsm-code-agent.helloWorld",
+        "title": "Hello World"
+      }
+    ],
+    "configuration": {
+      "title": "CNGSM Agent",
+      "properties": {
+        "cngsm.apiKey": {
+          "type": "string",
+          "default": "",
+          "description": "API Key for the LLM Provider (e.g., OpenAI/DeepSeek key)."
+        },
+        "cngsm.baseUrl": {
+          "type": "string",
+          "default": "http://localhost:11434/v1",
+          "description": "Base URL for the LLM API (must look like OpenAI API)."
+        },
+        "cngsm.model": {
+          "type": "string",
+          "default": "deepseek-r1",
+          "description": "Model ID to use (e.g., deepseek-chat, gpt-4, llama3)."
+        },
+        "cngsm.systemPrompt": {
+          "type": "string",
+          "default": "You are CNGSM Code Agent, an autonomous coding assistant for VSCodium.\n\nCRITICAL RULES:\n1. You MUST NOT simulate terminal outputs or file operations in markdown.\n2. You MUST use the provided XML tools to interact with the system.\n3. If you need up-to-date information, use the <web_search query=\"...\"> tool.\n4. ALWAYS read the file content using <read_file path=\"...\"> before proposing major refactors or edits.\n5. When testing code, use <run_local command=\"...\">. Be aware this runs on the host system.\n\nAVAILABLE TOOLS:\n- Execute Command: <execute_command command=\"npm install ...\"></execute_command>\n- Run Local (Test): <run_local command=\"node script.js\"></run_local>\n- Write File: <write_file path=\"src/file.ts\">...content...</write_file>\n- Read File: <read_file path=\"src/file.ts\"></read_file>\n- Web Search: <web_search query=\"...\"></web_search>\n\nworkflow:\n1. Think about the task.\n2. Use <read_file> or <web_search> to gather context if needed.\n3. Use <run_local> to test or execute validated scripts.\n4. Use a tool (e.g., <execute_command> or <write_file>).\n5. PAUSE and WAIT for the system to provide the tool output.\n6. Once you receive the output, continue your logic.\n\nDO NOT hallucinate tool outputs. USE THE TOOLS.",
+          "description": "System prompt for the agent.",
+          "editPresentation": "multilineText"
+        },
+        "cngsm.tavilyApiKey": {
+          "type": "string",
+          "default": "",
+          "description": "API Key for Tavily Search (required for Phase 5 'Batedor Web')."
+        },
+        "cngsm.telegramToken": {
+          "type": "string",
+          "default": "",
+          "description": "Telegram Bot Token for external notifications."
+        },
+        "cngsm.telegramChatId": {
+          "type": "string",
+          "default": "",
+          "description": "Telegram Chat ID for external notifications."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run package",
+    "compile": "esbuild ./src/extension.ts --bundle --outfile=dist/extension.js --external:vscode --external:sqlite3 --external:pdf-parse --format=cjs --platform=node --sourcemap",
+    "watch": "esbuild ./src/extension.ts --bundle --outfile=dist/extension.js --external:vscode --external:sqlite3 --external:pdf-parse --format=cjs --platform=node --sourcemap --watch",
+    "package": "esbuild ./src/extension.ts --bundle --outfile=dist/extension.js --external:vscode --external:sqlite3 --external:pdf-parse --format=cjs --platform=node --minify",
+    "build": "npm run compile",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "npm run compile-tests && npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js",
+    "snapshot": "node scripts/snapshot.js"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.13",
+    "@types/chrome-remote-interface": "^0.33.0",
+    "@types/glob": "^8.1.0",
+    "@types/mocha": "^10.0.1",
+    "@types/node": "^20.19.33",
+    "@types/sqlite3": "^3.1.11",
+    "@types/vscode": "^1.109.0",
+    "@types/ws": "^8.18.1",
+    "@typescript-eslint/eslint-plugin": "^5.59.1",
+    "@typescript-eslint/parser": "^5.59.1",
+    "@vscode/test-electron": "^2.3.0",
+    "esbuild": "^0.27.3",
+    "eslint": "^8.39.0",
+    "glob": "^8.1.0",
+    "mocha": "^10.2.0",
+    "ts-loader": "^9.4.2",
+    "typescript": "^5.9.3",
+    "webpack": "^5.81.0",
+    "webpack-cli": "^5.0.2"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/clovesnascimento/cngsmos"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.26.0",
+    "chrome-remote-interface": "^0.34.0",
+    "pdf-parse": "^2.4.5",
+    "sqlite3": "^5.1.7",
+    "ws": "^8.19.0",
+    "zod": "^4.3.6"
+  }
+}

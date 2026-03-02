@@ -1,0 +1,42 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "npm",
+			"script": "watch",
+			"problemMatcher": {
+				"owner": "esbuild",
+				"fileLocation": ["relative", "${workspaceFolder}"],
+				"pattern": {
+					"regexp": "^([^\\s].*):(\\d+):(\\d+):\\s+(error|warning):\\s+(.*)$",
+					"file": 1,
+					"line": 2,
+					"column": 3,
+					"severity": 4,
+					"message": 5
+				},
+				"background": {
+					"activeOnStart": true,
+					"beginsPattern": "^\\s*build started...",
+					"endsPattern": "^\\s*build finished"
+				}
+			},
+			"isBackground": true,
+			"presentation": {
+				"reveal": "never",
+				"panel": "shared"
+			},
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"label": "npm: watch"
+		},{
+			"type": "npm",
+			"script": "compile",
+			"problemMatcher": "$ts-webpack",
+			"group": "build",
+			"label": "npm: compile"
+		}
+	]
+}
