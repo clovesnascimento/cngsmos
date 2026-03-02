@@ -5,7 +5,7 @@
   "version": "0.0.1",
   "publisher": "cngsm",
   "engines": {
-    "vscode": "^1.109.0"
+    "vscode": "^1.107.0"
   },
   "categories": [
     "Other"
@@ -101,7 +101,7 @@
     "@types/mocha": "^10.0.1",
     "@types/node": "^20.19.33",
     "@types/sqlite3": "^3.1.11",
-    "@types/vscode": "^1.109.0",
+    "@types/vscode": "^1.107.0",
     "@types/ws": "^8.18.1",
     "@typescript-eslint/eslint-plugin": "^5.59.1",
     "@typescript-eslint/parser": "^5.59.1",
